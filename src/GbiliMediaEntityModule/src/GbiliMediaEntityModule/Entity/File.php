@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="gbilimem__files")
  */
-class File implements \GbiliMediaEntityModule\Entity\FileInterface
+class File implements FileInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")

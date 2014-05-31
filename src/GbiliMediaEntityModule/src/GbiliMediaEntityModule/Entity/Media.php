@@ -8,8 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="gbilimem__medias")
  */
 class Media implements 
-    \GbiliUserModule\IsOwnedByInterface, 
-    \GbiliMediaEntityModule\Entity\MediaInterface
+    MediaInterface,
+    \GbiliUserModule\IsOwnedByInterface
 {
     /**
      * @ORM\Column(name="id", type="integer")
