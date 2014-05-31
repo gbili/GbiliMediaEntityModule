@@ -12,11 +12,11 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "gbili/GbiliDoctrineConfigEventModule"
+            "url": "https://github.com/gbili/GbiliDoctrineConfigEventModule"
         },
         {
             "type": "vcs",
-            "url": "gbili/GbiliUserModule"
+            "url": "https://github.com/gbili/GbiliUserModule"
         }
     ],
 
