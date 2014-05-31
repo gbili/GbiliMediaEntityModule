@@ -13,13 +13,18 @@
         {
             "type": "vcs",
             "url": "gbili/GbiliDoctrineConfigEventModule"
+        },
+        {
+            "type": "vcs",
+            "url": "gbili/GbiliUserModule"
         }
     ],
 
     "require": {
-        "php": ">=5.3.3"
+        "php": ">=5.3.3",
         "zendframework/zendframework": "~2.2",
-        "gbili/gbili-doctrine-config-event-module": "dev-master"
+        "gbili/gbili-doctrine-config-event-module": "dev-master",
+        "gbili/gbili-user-module": "dev-master"
     },
 
     "autoload": {
