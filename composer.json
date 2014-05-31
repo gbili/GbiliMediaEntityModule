@@ -1,0 +1,30 @@
+{
+    "name": "gbili/gbili-req-module",
+    "description": "Zend Framework 2 Module initializing the Gbili\\Db\\Req connection",
+    "license": "MIT",
+    "keywords": [
+        "module",
+        "zf2",
+        "req",
+        "gbili"
+    ],
+
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "gbili/GbiliDoctrineConfigEventModule"
+        }
+    ],
+
+    "require": {
+        "php": ">=5.3.3"
+        "zendframework/zendframework": "~2.2",
+        "gbili/gbili-doctrine-config-event-module": "dev-master"
+    },
+
+    "autoload": {
+        "psr-0": {
+            "GbiliMediaEntityModule\\": "src/"
+        }
+    }
+}
