@@ -1,5 +1,5 @@
 {
-    "name": "gbili/gbili-req-module",
+    "name": "gbili/gbili-media-entity-module",
     "description": "Zend Framework 2 Module initializing the Gbili\\Db\\Req connection",
     "license": "MIT",
     "keywords": [
