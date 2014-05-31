@@ -49,7 +49,17 @@ interface MediaInterface
 
     public function getDatas();
 
-    public function getLocalizedData($locale);
+    public function addMetadata(MediaMetadataInterface $metadata);
 
-    public function hasLocalizedData($locale);
+    public function addMetadatas(\Doctrine\Common\Collections\Collection $metadatas);
+
+    public function removeAllMetadatas();
+
+    public function removeMetadatas(\Doctrine\Common\Collections\Collection $metadatas);
+
+    public function getMetadatas();
+
+    public function getLocalizedMetadata($locale);
+
+    public function hasLocalizedMetadata($locale);
 }

@@ -224,7 +224,7 @@ class Media implements
      * Heavy: n^2
      * TODO find a better solution for uniqueness of localized metadata
      */
-    public function addMetadata(MediaMetadata $metadata)
+    public function addMetadata(MediaMetadataInterface $metadata)
     {
         if ($metadata->hasMedia()) {
             throw new \Exception(
