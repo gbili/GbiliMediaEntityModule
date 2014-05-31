@@ -35,10 +35,16 @@ class Media implements
     private $publicdir;
 
     /**
-     * The media is linked to this post
+     * The all entities that have medias linked to them should 
      * @ORM\OneToMany(targetEntity="\GbiliMediaEntityModule\Entity\MediaDataInterface", mappedBy="media", cascade={"persist"})
      */
     private $datas;
+
+    /**
+     * The media is linked to this post
+     * @ORM\OneToMany(targetEntity="\GbiliMediaEntityModule\Entity\MediaMetadataInterface", mappedBy="media", cascade={"persist"})
+     */
+    private $metadatas;
 
     /**
      * @ORM\ManyToOne(targetEntity="\GbiliMediaEntityModule\Entity\FileInterface", inversedBy="medias")
@@ -56,6 +62,7 @@ class Media implements
     public function __construct()
     {
         $this->datas = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->metadatas = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function getId()
@@ -103,7 +110,7 @@ class Media implements
      * Heavy: n^2
      * TODO find a better solution for uniqueness of localized data
      */
-    public function addData(MediaData $data)
+    public function addData(MediaDataInterface $data)
     {
         if ($data->hasMedia()) {
             throw new \Exception(
@@ -111,14 +118,6 @@ class Media implements
                     ? 'This data already has a different media' 
                     : 'addData will set the media so dont set it yourself'
             );
-        }
-
-        if (!$data->hasLocale()) {
-            throw new \Exception('Data needs to have a locale');
-        }
-
-        if ($this->hasLocalizedData($data->getLocale())) {
-            throw new \Exception('Only one data per locale');
         }
 
         $data->setMedia($this);
@@ -147,21 +146,6 @@ class Media implements
     public function getDatas()
     {
         return $this->datas;
-    }
-
-    public function getLocalizedData($locale)
-    {
-        foreach ($this->datas->toArray() as $existingMeta)  {
-            if ($existingMeta->getLocale() === $locale) {
-                return $existingMeta;
-            }
-        }
-        return null;
-    }
-
-    public function hasLocalizedData($locale)
-    {
-        return null !== $this->getLocalizedData($locale);
     }
 
    /**
@@ -234,5 +218,70 @@ class Media implements
     public function isOwnedBy(\GbiliUserModule\Entity\UserInterface $user)
     {
         return $this->userdata->getUser() === $user;
+    }
+
+    /**
+     * Heavy: n^2
+     * TODO find a better solution for uniqueness of localized metadata
+     */
+    public function addMetadata(MediaMetadata $metadata)
+    {
+        if ($metadata->hasMedia()) {
+            throw new \Exception(
+                ($metadata->getMedia() === $this)
+                    ? 'This metadata already has a different media' 
+                    : 'addMetadata will set the media so dont set it yourself'
+            );
+        }
+
+        if (!$metadata->hasLocale()) {
+            throw new \Exception('Metadata needs to have a locale');
+        }
+
+        if ($this->hasLocalizedMetadata($metadata->getLocale())) {
+            throw new \Exception('Only one metadata per locale');
+        }
+
+        $metadata->setMedia($this);
+        $this->metadatas->add($metadata);
+    }
+
+    public function addMetadatas(\Doctrine\Common\Collections\Collection $metadatas)
+    {
+        foreach ($metadatas as $metadata) {
+            $this->addMetadata($metadata);
+        }
+    }
+
+    public function removeAllMetadatas()
+    {
+        $this->removeMetadatas($this->getMetadatas());
+    }
+
+    public function removeMetadatas(\Doctrine\Common\Collections\Collection $metadatas)
+    {
+        foreach ($metadatas as $metadata) {
+            $this->removeMetadata($metadata);
+        }
+    }
+
+    public function getMetadatas()
+    {
+        return $this->metadatas;
+    }
+
+    public function getLocalizedMetadata($locale)
+    {
+        foreach ($this->metadatas->toArray() as $existingMeta)  {
+            if ($existingMeta->getLocale() === $locale) {
+                return $existingMeta;
+            }
+        }
+        return null;
+    }
+
+    public function hasLocalizedMetadata($locale)
+    {
+        return null !== $this->getLocalizedMetadata($locale);
     }
 }

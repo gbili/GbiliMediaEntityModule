@@ -22,22 +22,6 @@ class MediaData implements MediaDataInterface
      */
     private $media;
 
-    /**
-     * @ORM\Column(name="locale", type="string", length=64)
-     */
-    private $locale;
-
-    /**
-     * Title
-     * @ORM\Column(name="alt", type="string", length=64)
-     */
-    private $alt;
-
-    /**
-     * @ORM\Column(name="description", type="string", length=255, nullable=true)
-     */
-    private $description;
-
     public function getId()
     {
         return $this->id;
@@ -56,40 +40,5 @@ class MediaData implements MediaDataInterface
     public function hasMedia()
     {
         return null !== $this->media;
-    }
-
-    public function setAlt($alt)
-    {
-        $this->alt = $alt;
-    }
-
-    public function getAlt()
-    {
-        return $this->alt;
-    }
-
-    public function setDescription($description = null)
-    {
-        $this->description = $description;
-    }
-
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    public function setLocale($locale)
-    {
-        $this->locale = $locale;
-    }
-
-    public function hasLocale()
-    {
-        return null !== $this->locale;
-    }
-
-    public function getLocale()
-    {
-        return $this->locale;
     }
 }
