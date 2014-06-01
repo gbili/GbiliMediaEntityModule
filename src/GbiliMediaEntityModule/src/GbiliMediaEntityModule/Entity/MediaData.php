@@ -27,7 +27,7 @@ class MediaData implements MediaDataInterface
         return $this->id;
     }
 
-    public function setMedia(Media $media=null)
+    public function setMedia(MediaInterface $media=null)
     {
         $this->media = $media;
     }
