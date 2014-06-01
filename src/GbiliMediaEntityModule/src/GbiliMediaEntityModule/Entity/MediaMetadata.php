@@ -17,7 +17,7 @@ class MediaMetadata implements MediaMetadataInterface
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="MediaInterface", inversedBy="datas")
+     * @ORM\ManyToOne(targetEntity="MediaInterface", inversedBy="metadatas")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $media;
