@@ -17,7 +17,7 @@ class MediaMetadata implements MediaMetadataInterface
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Media", inversedBy="datas")
+     * @ORM\ManyToOne(targetEntity="MediaInterface", inversedBy="datas")
      * @ORM\JoinColumn(name="media_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $media;
@@ -43,7 +43,7 @@ class MediaMetadata implements MediaMetadataInterface
         return $this->id;
     }
 
-    public function setMedia(Media $media=null)
+    public function setMedia(MediaInterface $media=null)
     {
         $this->media = $media;
     }
