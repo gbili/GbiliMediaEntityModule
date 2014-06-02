@@ -28,7 +28,7 @@ class MediaEntityCreator extends \Zend\Mvc\Controller\Plugin\AbstractPlugin
         $locale        = $controller->locale();
 
         $mediaEntityClassMetadata = $objectManager->getClassMetadata('\GbiliMediaEntityModule\Entity\Media')->associationMappings;
-        $mediaDatasClassname    = '\\' . $mediaEntityClassMetadata['datas']['targetEntity'];
+        $mediaMetadataClassname = '\\' . $mediaEntityClassMetadata['metadata']['targetEntity'];
         $mediaUserdataClassname = '\\' . $mediaEntityClassMetadata['userdata']['targetEntity'];
         
         $user = $controller->identity();
