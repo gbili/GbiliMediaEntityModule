@@ -13,6 +13,8 @@ interface MediaInterface
 
     public function getUser();
 
+    public function hasUser();
+
     public function getUri();
 
     public function getType();
@@ -38,28 +40,4 @@ interface MediaInterface
     public function hasLocale();
 
     public function getLocale();
-
-    public function addData(MediaDataInterface $data);
-
-    public function addDatas(\Doctrine\Common\Collections\Collection $datas);
-
-    public function removeAllDatas();
-
-    public function removeDatas(\Doctrine\Common\Collections\Collection $datas);
-
-    public function getDatas();
-
-    public function addMetadata(MediaMetadataInterface $metadata);
-
-    public function addMetadatas(\Doctrine\Common\Collections\Collection $metadatas);
-
-    public function removeAllMetadatas();
-
-    public function removeMetadatas(\Doctrine\Common\Collections\Collection $metadatas);
-
-    public function getMetadatas();
-
-    public function getLocalizedMetadata($locale);
-
-    public function hasLocalizedMetadata($locale);
 }

@@ -26,20 +26,8 @@ class MediaEntityCreator extends \Zend\Mvc\Controller\Plugin\AbstractPlugin
         $config        = $controller->getServiceLocator()->get('Config');
         $publicDir     = $config['file_uploader']['constants']['IMAGES_SRC_DIRPATH'];
         $locale        = $controller->locale();
-
-        $mediaEntityClassMetadata = $objectManager->getClassMetadata('\GbiliMediaEntityModule\Entity\Media')->associationMappings;
-        $mediaMetadataClassname = '\\' . $mediaEntityClassMetadata['metadatas']['targetEntity'];
-        $mediaUserdataClassname = '\\' . $mediaEntityClassMetadata['userdata']['targetEntity'];
         
         $user = $controller->identity();
-        
-        if (!$user->hasData()) {
-            $userdata = new $mediaUserdataClassname();
-            $user->setData($userdata);
-            $objectManager->persist($user);
-        } else {
-            $userdata = $user->getData();
-        }
 
         $createdMedias = array();
         foreach ($files as $file) {
@@ -49,15 +37,16 @@ class MediaEntityCreator extends \Zend\Mvc\Controller\Plugin\AbstractPlugin
             $basename = $file->getBasename();
             $metadata->setAlt($basename);
             $metadata->setLocale($locale);
+            $metadata->setMedia($media);
 
-            $media->addMetadata($metadata);
             $media->setSlug($basename);
             $media->setFile($file);
             $media->setPublicdir($publicDir);
             $media->setDate(new \DateTime());
-            $media->setUserData($userdata);
+            $media->setUser($user);
 
             $objectManager->persist($media);
+            $objectManager->persist($metadata);
             $objectManager->flush();
 
             $createdMedias[] = $media;
