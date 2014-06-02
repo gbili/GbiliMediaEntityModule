@@ -88,7 +88,30 @@ class Media implements
 
     public function getUser()
     {
-        return $this->userdata->getUser();
+        $userdata = $this->getUserData();
+        if ($userdata->hasUser()) {
+            throw new \Exception('User data is unbound: User data has no user');
+        }
+        return $userdata->getUser();
+    }
+
+    public function hasUserData()
+    {
+        return null !== $this->userdata;
+    }
+
+    public function setUserData(\GbiliUserModule\Entity\UserDataInterface $userdata)
+    {
+        $this->userdata = $userdata;
+        return $this;
+    }
+
+    public function getUserData()
+    {
+        if (!$this->hasUserData()) {
+            throw new \Exception('No user data was set');
+        }
+        return $this->userdata;
     }
 
     public function getUri()
