@@ -24,9 +24,12 @@ class MediaEntityCreator extends \Zend\Mvc\Controller\Plugin\AbstractPlugin
         $controller = $this->getController();
         $objectManager = $controller->em();
         $config        = $controller->getServiceLocator()->get('Config');
-        $publicDir     = $config['blog_constants']['IMAGES_SRC_DIRPATH'];
+        $publicDir     = $config['file_uploader']['constants']['IMAGES_SRC_DIRPATH'];
         $locale        = $controller->locale();
 
+        $metadata = $entityManager->getClassMetadata('\GbiliMediaEntityModule\Entity\Media');
+        die(var_dump($metadata->associationMappings));
+        
         $createdMedias = array();
         foreach ($files as $file) {
             $media = new \GbiliMediaEntityModule\Entity\Media();
