@@ -48,7 +48,6 @@ class BaseMedia implements
 
     public function __construct()
     {
-        $this->metadatas = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     public function getId()
