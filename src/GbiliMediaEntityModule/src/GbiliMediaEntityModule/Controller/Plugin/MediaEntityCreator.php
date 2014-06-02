@@ -37,6 +37,8 @@ class MediaEntityCreator extends \Zend\Mvc\Controller\Plugin\AbstractPlugin
             $userdata = new $mediaUserdataClassname();
             $user->setData($userdata);
             $objectManager->persist($user);
+        } else {
+            $userdata = $user->getData();
         }
 
         $createdMedias = array();
