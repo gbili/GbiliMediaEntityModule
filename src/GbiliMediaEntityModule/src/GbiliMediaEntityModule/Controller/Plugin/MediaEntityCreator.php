@@ -32,7 +32,7 @@ class MediaEntityCreator extends \Zend\Mvc\Controller\Plugin\AbstractPlugin
         $createdMedias = array();
         foreach ($files as $file) {
             $media = new \GbiliMediaEntityModule\Entity\Media();
-            $metadata = new $mediaMetadataClassname();
+            $metadata = new \GbiliMediaEntityModule\Entity\MediaMetadata();
 
             $basename = $file->getBasename();
             $metadata->setAlt($basename);
