@@ -1,5 +1,5 @@
 <?php
-namespace GbiliUploadModule\Service;
+namespace GbiliMediaEntityModule\Service;
 
 class UploadFileHydrator implements \GbiliUploadModule\FileHydratorInterface
 {
