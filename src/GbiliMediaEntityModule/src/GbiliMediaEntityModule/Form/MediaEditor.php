@@ -11,11 +11,18 @@ class MediaEditor extends \Zend\Form\Form
         $this->setHydrator(new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($objectManager));
         
         //Add the user fieldset, and set it as the base fieldset
-        $postFieldset = new Fieldset\Media($objectManager);
-        $postFieldset->setUseAsBaseFieldset(true);
-        $this->add($postFieldset);
+        $mediaFieldset = new Fieldset\Media($objectManager);
+        $mediaFieldset->setUseAsBaseFieldset(true);
+        $this->add($mediaFieldset);
 
-        // ... add CSRF and submit elements
+        $mediaMetadataFieldset = new Fieldset\MediaMetadata($objectManager);
+        $this->add($mediaMetadataFieldset);
+
+        $this->add(array(
+            'name' => 'security',
+            'type' => 'Zend\Form\Element\Csrf'
+        ));
+
         $this->add(array(
             'name' => 'submit',
             'attributes' => array(
@@ -25,6 +32,17 @@ class MediaEditor extends \Zend\Form\Form
                 'class' => 'btn btn-default', 
             ),
         ));
-        // Optionally set your validation group here
+    }
+
+    public function getInputFilterSpecification()
+    {
+        return array(
+            'security' => array(
+                'required' => true,
+                'validators' => array(
+                    array('name' => 'Csrf'),
+                ),
+            )
+        );
     }
 }

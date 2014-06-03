@@ -1,15 +1,15 @@
 <?php
 namespace GbiliMediaEntityModule\Form\Fieldset;
 
-class Media extends \Zend\Form\Fieldset 
+class MediaMetadata extends \Zend\Form\Fieldset 
     implements \Zend\InputFilter\InputFilterProviderInterface
 {
     public function __construct(\Doctrine\Common\Persistence\ObjectManager $objectManager)
     {
-        parent::__construct('media');
+        parent::__construct('metadata');
 
         $this->setHydrator(new \DoctrineModule\Stdlib\Hydrator\DoctrineObject($objectManager))
-             ->setObject(new \GbiliMediaEntityModule\Entity\Media());
+             ->setObject(new \GbiliMediaEntityModule\Entity\MediaMetadata());
         
         $this->add(array(
             'name' => 'id',
@@ -17,34 +17,30 @@ class Media extends \Zend\Form\Fieldset
         ));
 
         $this->add(array(
-            'name' => 'slug',
+            'name' => 'alt',
             'type'  => 'Zend\Form\Element\Text',
             'options' => array(
-                'label' => 'Slug'
+                'label' => 'Alternate Text'
             ),
             'attributes' => array(
-                'placeholder' => 'Enter Slug',
+                'placeholder' => 'Displayed when image not loaded',
                 'class' => 'form-control',
             )
         ));
-    }
 
-    /** 
-     * This relies on the fact that the file id is passed
-     * in the form action as a uri parameter
-     * Then that parameter has to be merged in the post data
-     * as the post id in the 'file'
-     * 
-     * Note if the hidden element value could be preset, it
-     * would be much simpler.
-     */
-    public function turnFileSelectorIntoHidden()
-    {
-        $this->remove('file');
         $this->add(array(
-            'name' => 'file',
-            'type'  => 'Zend\Form\Element\Hidden',
+            'name' => 'description',
+            'type'  => 'Zend\Form\Element\Textarea',
+            'options' => array(
+                'label' => 'Description',
+            ),
+            'attributes' => array(
+                'class' => 'form-control',
+                'rows' => '8',
+                'placeholder' => 'Describe the image',
+            )
         ));
+
     }
 
     public function getInputFilterSpecification()
@@ -57,7 +53,7 @@ class Media extends \Zend\Form\Fieldset
                 ),
             ),
 
-            'slug' => array(
+            'alt' => array(
                 'required' => true,
                 'filters'  => array(
                     array('name' => 'StripTags'),
@@ -75,9 +71,21 @@ class Media extends \Zend\Form\Fieldset
                 ),
             ),
 
-            /*'file' => array(
+            'description' => array(
                 'required' => true,
-            ),*/
+                'filters'  => array(
+                    array('name' => 'StringTrim'),
+                ),
+                'validators' => array(
+                    array(
+                        'name'    => 'StringLength',
+                        'options' => array(
+                            'encoding' => 'UTF-8',
+                            'min'      => 1,
+                        ),
+                    ),
+                ),
+            ),
         );
     }
 }
