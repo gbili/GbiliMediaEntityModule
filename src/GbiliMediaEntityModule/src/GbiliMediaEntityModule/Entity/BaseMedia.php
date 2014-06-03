@@ -73,9 +73,6 @@ class BaseMedia implements
 
     public function getUser()
     {
-        if ($this->hasUser()) {
-            throw new \Exception('Media has no user associated');
-        }
         return $this->user;
     }
 
