@@ -34,7 +34,7 @@ class BaseMedia implements
     private $publicdir;
 
     /**
-     * @ORM\ManyToOne(targetEntity="\GbiliMediaEntityModule\Entity\FileInterface")
+     * @ORM\ManyToOne(targetEntity="\GbiliMediaEntityModule\Entity\FileInterface", fetch="EAGER")
      * @ORM\JoinColumn(name="file_id", referencedColumnName="id", onDelete="CASCADE")
      */
     private $file;
