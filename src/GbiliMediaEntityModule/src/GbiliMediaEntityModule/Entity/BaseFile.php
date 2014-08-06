@@ -29,7 +29,7 @@ class BaseFile implements FileInterface
 
     /**
      * The containing directory path
-     * @ORM\Column(name="dirpath", type="string", length=64)
+     * @ORM\Column(name="dirpath", type="string", length=255)
      */
     private $dirpath;
 
