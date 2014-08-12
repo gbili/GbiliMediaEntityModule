@@ -169,7 +169,7 @@ class BaseFile implements FileInterface
     public function move($newBasename)
     {
         if (0 ===  preg_match('#^[a-zA-Z0-9][a-zA-Z0-9-_]*?\\.[a-zA-Z0-9]+$#', $newBasename)) {
-            throw new \Exception('The filename is not supported');
+            $newBasename = $this->slugify($newBasename);
         }
         $newUri = $this->getDirpath() . '/' . $newBasename;
 
@@ -190,5 +190,37 @@ class BaseFile implements FileInterface
         $this->setUri($newUri);
         $this->setName($this->getBasename());
         return true;
+    }
+
+    /**
+     * Try to create a valid filename
+     * @return string valid basename: somefile-is.bz2
+     */
+    public function slugify($text)
+    { 
+        $extensionDotPos = strrpos($text, '.');
+        $notExtension = substr($text, 0, $extensionDotPos-1);
+        $extension = substr($text, 0, $extensionDotPos+1);
+
+        if (preg_match('/[^a-zA-Z0-9]/', $extension)) {
+            throw new \Exception('Bad Extension');
+        }
+
+        $text = $notExtension;
+        // replace non letter or digits by -
+        $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
+        // trim
+        $text = trim($text, '-');
+        // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+        // lowercase
+        $text = strtolower($text);
+        // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        if (empty($text)) {
+            $text = 'n-a';
+        }
+        return "$text.$extension";
     }
 }
