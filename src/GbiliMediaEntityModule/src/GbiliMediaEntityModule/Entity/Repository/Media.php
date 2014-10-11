@@ -10,11 +10,18 @@ class Media extends \Doctrine\ORM\EntityRepository
      *
      * @var array
      */
-    protected $config;
+    protected $config = array();
 
+    /**
+     *
+     */
     public function setConfig(array $config) {
         $this->config = $config;
         return $this;
+    }
+
+    public function hasConfig() {
+        return !empty($this->config);
     }
 
     /**
