@@ -36,7 +36,7 @@ class Media extends \Doctrine\ORM\EntityRepository
      */
     public function getDefaultMedia($target='fallback')
     {
-        if (!isset($this->config[$target]) {
+        if (!isset($this->config[$target])) {
             throw new \Exception('Missing default media slug in config');
         }
 
