@@ -44,7 +44,7 @@ class Media extends \Doctrine\ORM\EntityRepository
         $media = $this->findBySlug($slug);
 
         if (!$media) {
-            throw new \Exception('The default media set in config, does not exist for: ' . $target) . '. Slug is ' . $slug);
+            throw new \Exception('The default media set in config, does not exist for: ' . $target . '. Slug is ' . $slug);
         }
         return current($media);
     }
