@@ -15,12 +15,14 @@ class Media extends \Doctrine\ORM\EntityRepository
     /**
      *
      */
-    public function setConfig(array $config) {
+    public function setConfig(array $config) 
+    {
         $this->config = $config;
         return $this;
     }
 
-    public function hasConfig() {
+    public function hasConfig() 
+    {
         return !empty($this->config);
     }
 
