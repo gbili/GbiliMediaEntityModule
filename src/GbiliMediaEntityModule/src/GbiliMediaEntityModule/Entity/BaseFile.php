@@ -200,7 +200,7 @@ class BaseFile implements FileInterface
     { 
         $extensionDotPos = strrpos($text, '.');
         $notExtension = substr($text, 0, $extensionDotPos-1);
-        $extension = substr($text, 0, $extensionDotPos+1);
+        $extension = substr($text, $extensionDotPos+1);
 
         if (preg_match('/[^a-zA-Z0-9]/', $extension)) {
             throw new \Exception('Bad Extension: ' . print_r($extension, true));
