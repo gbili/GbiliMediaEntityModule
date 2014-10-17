@@ -1,5 +1,5 @@
 <?php
-namespace ApplicationTest;//Change this namespace for your test
+namespace GbiliMediaEntityModuleTest;//Change this namespace for your test
 
 use Zend\Loader\AutoloaderFactory;
 use Zend\Mvc\Service\ServiceManagerConfig;

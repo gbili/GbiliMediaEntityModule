@@ -13,72 +13,46 @@ class Slugifile
      * @var 
      */
     protected $input;
-
-    /**
-     * Whether the input has been parsed
-     * @var boolean
-     */
-    protected $isParsed;
-
     protected $basename;
-    protected $extension;
-    protected $output;
+    protected $extension='';
 
     /**
      * @param string $text
      */
-    public function __constrct($text)
+    public function __construct($text=null)
     {
-        $this->setInput($text);
+        if (null !== $text) {
+            $this->setInput($text);
+        }
     }
 
     /**
      * @param string $text
      * @return self
      */
-    public function setInput($text)
+    public function setInput($input)
     {
-        if (!is_string($text)) {
+        if (!is_string($input)) {
             throw new \Exception('Bad input, expecting string.');
         }
-        $this->isParsed = false;
-        $this->input = $text;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getInput()
-    {
-        return $this->input;
-    }
-
-    public function isParsed()
-    {
-        return $this->isParsed;
-    }
-
-    /**
-     * Take apart input into logic components
-     * of a filename
-     */
-    public function parseParts()
-    {
-        if ($this->isParsed()) {
-            return $this;
+        $lastDotPos = strrpos($input, '.');
+        if (preg_match('/\.\w+$/', $input) && false !== $lastDotPos) {
+            $this->setBasename(substr($input, 0, $lastDotPos));
+            $this->setExtension(substr($input, $lastDotPos+1));
+        } else {
+            $this->setBasename($input);
         }
-
-        $input = $this->getInput();
-        $extensionDotPos = strrpos($input, '.');
-        $this->setBasename(substr($input, 0, $extensionDotPos-1));
-        $this->setExtension(substr($input, $extensionDotPos+1));
-
-        $this->setOutput($this->getBasename() . '.' . $this->getExtension());
-
-        $this->isParsed = true;
-
         return $this;
+    }
+
+    /**
+     * Contains only alnum chars
+     * @param string $extension
+     * @return bool
+     */
+    public function isValidExtension($extension)
+    {
+        return is_string($extension) && !preg_match('/[^a-zA-Z0-9]/', $extension);
     }
 
     /**
@@ -86,20 +60,15 @@ class Slugifile
      */
     public function setExtension($extension)
     {
-        if (preg_match('/[^a-zA-Z0-9]/', $extension)) {
+        if (!$this->isValidExtension($extension)) {
             throw new \Exception('Bad Extension: ' . print_r($extension, true));
         }
         $this->extension = $extension;
-        $this->isParsed = false;
         return $this;
     }
 
-    /**
-     * @return self
-     */
-    public function setBasename($basename)
+    public function filterBasename($text)
     {
-        $text = $basename;
         // replace non letter or digits by -
         $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
         // trim
@@ -110,13 +79,18 @@ class Slugifile
         $text = strtolower($text);
         // remove unwanted characters
         $text = preg_replace('~[^-\w]+~', '', $text);
-
         if (empty($text)) {
             $text = 'n-a';
         }
-        $this->basename = $text;
-        $this->isParsed = false;
+        return $text;
+    }
 
+    /**
+     * @return self
+     */
+    public function setBasename($basename)
+    {
+        $this->basename = $this->filterBasename($basename);
         return $this;
     }
 
@@ -125,37 +99,30 @@ class Slugifile
      */
     public function getBasename()
     {
-        $this->parseParts()
+        if (null === $this->basename) {
+            throw new \Exception('Basename not set');
+        }
         return $this->basename;
     }
 
     /**
      * @return string
      */
-    public function getExtension()
+    public function getExtension($withDot=null)
     {
-        $this->parseParts()
-        return $this->extension;
+        return (($withDot === null || $this->extension === '')? '' : '.') . $this->extension;
     }
 
     /**
      * Try to create a valid filename
      * @return string valid basename: somefile-is.bz2
      */
-    public function slugify()
-    {
-        return 
-    }
-
-    protected function setOutput($validslug)
-    {
-        $this->output = $validslug;
-        return $this;
-    }
-
     public function getOutput()
     {
-        $this->parseParts();
-        return $this->output;
+        $out = $this->getBasename() . $this->getExtension('.');
+        if (0 === preg_match('#^[a-zA-Z0-9][a-zA-Z0-9-_]*?(?:\\.[a-zA-Z0-9]+)?$#', $out)) {
+            throw new \Exception('The generated output is not acceptable');
+        }
+        return $out;
     }
 }
