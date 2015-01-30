@@ -28,11 +28,6 @@ return array(
                     '\GbiliMediaEntityModule\Entity\MediaMetadata', 
                     array(),
                 ),
-                '\GbiliMediaEntityModule\Entity\FileInterface' => array(
-                    '\GbiliMediaEntityModule\Entity\FileInterface', 
-                    '\GbiliMediaEntityModule\Entity\File', 
-                    array(),
-                ),
             ),
         ),
     ),

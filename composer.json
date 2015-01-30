@@ -20,6 +20,10 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/gbili/GbiliFileEntityModule"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/gbili/GbiliUserModule"
         }
     ],
@@ -29,6 +33,7 @@
         "zendframework/zendframework": "~2.2",
         "gbili/gbili-doctrine-config-event-module": "dev-master",
         "gbili/gbili-doctrine-form-object-module": "dev-master",
+        "gbili/gbili-file-entity-module": "dev-master",
         "gbili/gbili-user-module": "dev-master"
     },
 
